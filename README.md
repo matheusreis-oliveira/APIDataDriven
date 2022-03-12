@@ -3,27 +3,45 @@
 Hoje trago uma API REST com alguns conceitos que venho estudando para integrar meus conhecimentos em .NET 🚀
 
 ## Neste estudo, aprendi sobre
-> ORM
-> CRUD
-> Status Response
-> Criação, validação e relacionamento de modelos
-> Data Annotations
-> Injeção de Dependência 
-> Tratamento de erros
-> Criação de Controllers com boas práticas
-> Conceitos de segurança em API's
-> Autenticação e Autorização na API com geração de tokens JWT
-> Criação e organização de endpoints públicos e restritos
-> Usar versionamento, cache e compressão de dados na API
+> ORM,
+> 
+> CRUD,
+> 
+> Status Response,
+> 
+> Criação, validação e relacionamento de modelos,
+> 
+> Data Annotations,
+> 
+> Injeção de Dependência,
+> 
+> Tratamento de erros,
+> 
+> Criação de Controllers com boas práticas,
+> 
+> Conceitos de segurança em API's,
+> ,
+> 
+> Autenticação e Autorização na API com geração de tokens JWT,
+> 
+> Criação e organização de endpoints públicos e restritos,
+> 
+> Usar versionamento, cache e compressão de dados na API,
+> 
 > Publicar a API no Microsoft Azure
 
 
 ## O que foi usado
-> ASP .NET Core 3.0 SDK
-> Entity Framework Core 3.0
-> Visual Studio
-> Visual Studio Code
-> SQL Server Management Studio
+> ASP .NET Core 3.0 SDK,
+> 
+> Entity Framework Core 3.0,
+> 
+> Visual Studio,
+> 
+> Visual Studio Code,
+> 
+> SQL Server Management Studio,
+> 
 > Azure Data Studio
 
 ---
