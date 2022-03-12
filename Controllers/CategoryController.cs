@@ -45,15 +45,15 @@ namespace EstudosAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new { categoria = "Cateoria não encontrada"});
+                return BadRequest(new { categoria = "Categoria não encontrada"});
             }
         }
 
         [HttpPost]
         [Route("")]
         public async Task<ActionResult<CategoryModel>> Post(
-            [FromBody] CategoryModel model,                   //usa o model binding                  
-            [FromServices] DataContext context                //dizendo que o datacontext vem do serviço
+            [FromBody] CategoryModel model, //usa o model binding                  
+            [FromServices] DataContext context //dizendo que o datacontext vem do serviço
             )
         {
             //ModelState = estado do modelo (no caso o CateoryModel)
