@@ -21,7 +21,11 @@ namespace EstudosAPI
         {
             services.AddControllers();
 
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco"));
+            //Utilização do InMemoryDB para salvar em memoria => 
+            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco")); 
+
+            //Usando no DB
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             //injeção de dependencia ↓
             services.AddScoped<DataContext, DataContext>();

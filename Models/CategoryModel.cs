@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EstudosAPI.Models
 {
-    [Table("[Category]")]
+    [Table("Category")]
     public class CategoryModel
     {
         [Key]

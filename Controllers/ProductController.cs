@@ -92,11 +92,11 @@ namespace EstudosAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:int}")]
+        [Route("categories/{id:int}")]
         public async Task<ActionResult<ProductModel>> Delete(int id, [FromServices] DataContext context)
         {
-            //cria um proxy da categoria (EF)
-            var product = await context.Products.FirstOrDefaultAsync(pdc => pdc.Id == id);
+            //cria um proxy do produto (EF)
+            var product = await context.Products.FirstOrDefaultAsync(pdc => pdc.Category.Id == id);
 
             if (product == null)
                 return NotFound(new { categoria = "Produto não encontrado" });
