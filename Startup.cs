@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace EstudosAPI
 {
@@ -24,6 +25,7 @@ namespace EstudosAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(); //removendo problemas de requisições localhost
             //compacta a informação e manda zipado para a tela, e o html descompacta a informação
             services.AddResponseCompression(options =>
             {
@@ -66,6 +68,12 @@ namespace EstudosAPI
             //AddScoped => sempre vai abrir apenas um datacontext por requisição, nunca vou ter 2 conexões abertas pq o addscoped destrói a conexão
             //AddTransient => sempre quando eu pedir um datacontext ele vai me abrir um novo datacontext (cria um novo na memoria)
             //AddSingleton => cria uma instancia do datacontext por aplicação, primeira vez que inciar a aplicação vai criar uma instancia e todas as requisiçoes vao utilizar o mesmo datacontext(nao da pra usar quando tem usario !=)
+
+            //ferramenta para documentação da API (swashbuckle, swagger, openApi)
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Estudos API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -77,10 +85,19 @@ namespace EstudosAPI
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger(); //permite que ja tenha uma especificação da api em um formato json
+            //ferramenta visual para visualizar o api (padrão: c.SwaggerEndpoint("/swagger/v1/swagger.json", "NOME");)
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Estudos API v1");
+            });
+
+
             app.UseRouting();
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //permite a chamada de origem, metodos e cabeçalhos
+
             app.UseAuthentication();
-            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
