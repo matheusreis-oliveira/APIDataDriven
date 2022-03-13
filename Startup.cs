@@ -1,10 +1,13 @@
+using System.Text;
 using EstudosAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EstudosAPI
 {
@@ -21,10 +24,31 @@ namespace EstudosAPI
         {
             services.AddControllers();
 
-            //Utilização do InMemoryDB para salvar em memoria => 
-            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco")); 
+            //transformando a chave em bytes
+            var key = Encoding.ASCII.GetBytes(Settings.Key);
+            //adicionando a autenticação => na maioria dos casos é usado esse padrao, somente quando estiver trabalhando com distribuição que muda
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false; //dizendo que não precisa do httpsmetadata
+                x.SaveToken = true; //vai salvar o token
+                x.TokenValidationParameters = new TokenValidationParameters //validando o token 
+                {
+                    ValidateIssuerSigningKey = true, //validar se ja tem uma chave
+                    IssuerSigningKey = new SymmetricSecurityKey(key), //a chave que ele vai validar do front com o back (SymmetricSecurityKey aonde estamos passando os bytes de key)
+                    //como nao estamos usando nada avançado, usamos os validete's como false
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
-            //Usando no DB
+
+            //Utilização do InMemoryDB para salvar em memoria ↓
+            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco")); 
+            //Usando no DB ↓
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             //injeção de dependencia ↓
@@ -45,6 +69,8 @@ namespace EstudosAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
