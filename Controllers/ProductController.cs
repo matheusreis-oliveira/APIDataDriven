@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using EstudosAPI.Data;
 using EstudosAPI.Models;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EstudosAPI.Controllers
 {
@@ -14,6 +15,7 @@ namespace EstudosAPI.Controllers
     {
         [HttpGet]
         [Route("")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ProductModel>>> GetAll([FromServices] DataContext context)
         {
             try
@@ -35,6 +37,7 @@ namespace EstudosAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<ProductModel>> GetById(int id, [FromServices] DataContext context)
         {
             try
@@ -55,6 +58,7 @@ namespace EstudosAPI.Controllers
 
         [HttpGet]
         [Route("categories/{id:int}")] //products/categories/1 => listar todos os products da category 1
+        [AllowAnonymous]
         public async Task<ActionResult<List<ProductModel>>> GetProducts(int id, [FromServices] DataContext context)
         {
             try
@@ -73,6 +77,8 @@ namespace EstudosAPI.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "employee")]
         public async Task<ActionResult<ProductModel>> Post([FromBody] ProductModel model, [FromServices] DataContext context)
         {
             //ModelState = estado do modelo (no caso o productmodel)
@@ -91,8 +97,40 @@ namespace EstudosAPI.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("{id:int}")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "employee")]
+        public async Task<ActionResult<ProductModel>> Put(int id, [FromBody] ProductModel model, [FromServices] DataContext context)
+        {
+            //veriica se o id informado é o mesmo do model
+            if (model.Id != id)
+                return NotFound(new { produto = "Produto não encontrado" });
+
+            //verifica se os dados validos
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                context.Entry<ProductModel>(model).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+                return model;
+            }
+            catch (DbUpdateConcurrencyException) //tipo especifico = erro de concorrencia
+            {
+                return BadRequest(new { produto = "Esse registro já foi atualizado" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { produto = "Não foi possível atualizar o produto " });
+            }
+        }
+
         [HttpDelete]
         [Route("categories/{id:int}")]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "employee")]
         public async Task<ActionResult<ProductModel>> Delete(int id, [FromServices] DataContext context)
         {
             //cria um proxy do produto (EF)
