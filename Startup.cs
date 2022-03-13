@@ -1,8 +1,10 @@
+using System.Linq;
 using System.Text;
 using EstudosAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,14 @@ namespace EstudosAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //compacta a informação e manda zipado para a tela, e o html descompacta a informação
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" }); //compactando tudo q é app/json
+            });
+            //services.AddResponseCaching(); //adiciona o cache na aplicação, porém posso utilizar direto no controller
+
             services.AddControllers();
 
             //transformando a chave em bytes

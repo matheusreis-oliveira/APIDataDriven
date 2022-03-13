@@ -21,6 +21,8 @@ namespace EstudosAPI.Controllers
         [HttpGet]
         [Route("")]
         [Authorize]
+        [ResponseCache(VaryByHeader = "User-Agent", Location = ResponseCacheLocation.Any, Duration = 30)] //adicionando cache
+        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]  //se eu deixar o ResponseCache direto no startup, esse desativa o cache do metodo
         public async Task<ActionResult<List<CategoryModel>>> Get([FromServices] DataContext context)
         {
             //AsNoTracking = faz uma leitura da forma mais rapida no banco (usar no que é leitura)
