@@ -15,7 +15,7 @@ namespace EstudosAPI.Controllers
     {
         [HttpGet]
         [Route("")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<List<ProductModel>>> GetAll([FromServices] DataContext context)
         {
             try
@@ -37,7 +37,7 @@ namespace EstudosAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<ProductModel>> GetById(int id, [FromServices] DataContext context)
         {
             try

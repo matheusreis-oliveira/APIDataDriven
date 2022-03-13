@@ -20,7 +20,7 @@ namespace EstudosAPI.Controllers
     {
         [HttpGet]
         [Route("")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<List<CategoryModel>>> Get([FromServices] DataContext context)
         {
             //AsNoTracking = faz uma leitura da forma mais rapida no banco (usar no que é leitura)
@@ -38,7 +38,7 @@ namespace EstudosAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]//usando o parametro:tipo eu crio uma restriçao na rota
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<CategoryModel>> GetById(int id, [FromServices] DataContext context)
         {
             try
