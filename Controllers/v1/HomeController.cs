@@ -21,7 +21,7 @@ namespace Backoffice.Controllers
             context.Users.Add(employee);
             context.Users.Add(manager);
             context.Categories.Add(category);
-            context.Products.Add(product);
+            context.Products.Add(product); 
             await context.SaveChangesAsync();
 
             return Ok(new
