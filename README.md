@@ -40,7 +40,10 @@ Hoje trago uma API REST com alguns conceitos que venho estudando para integrar m
 > 
 > SQL Server Management Studio;
 > 
-> Azure Data Studio
+> Azure Data Studio;
+> 
+> Postman
+
 
 ---
 
