@@ -26,9 +26,7 @@ Hoje trago uma API REST com alguns conceitos que venho estudando para integrar m
 > 
 > Criação e organização de endpoints públicos e restritos;
 > 
-> Usar versionamento, cache e compressão de dados na API;
-> 
-> Publicar a API no Microsoft Azure
+> Usar versionamento, cache e compressão de dados na API
 
 
 ## O que foi usado
