@@ -59,12 +59,12 @@ namespace EstudosAPI
 
 
             //Utilização do InMemoryDB para salvar em memoria ↓
-            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco")); 
+             services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Banco")); 
             //Usando no DB ↓
-            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
+            // services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             //injeção de dependencia ↓
-            services.AddScoped<DataContext, DataContext>();
+            //services.AddScoped<DataContext, DataContext>(); //services.AddDbContext ja faz a função do addScoped
             //AddScoped => sempre vai abrir apenas um datacontext por requisição, nunca vou ter 2 conexões abertas pq o addscoped destrói a conexão
             //AddTransient => sempre quando eu pedir um datacontext ele vai me abrir um novo datacontext (cria um novo na memoria)
             //AddSingleton => cria uma instancia do datacontext por aplicação, primeira vez que inciar a aplicação vai criar uma instancia e todas as requisiçoes vao utilizar o mesmo datacontext(nao da pra usar quando tem usario !=)

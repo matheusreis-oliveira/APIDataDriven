@@ -142,8 +142,6 @@ namespace EstudosAPI.Controllers
 
             var token = TokenService.GenerateToken(user);
 
-            //esconde a senha
-            //user.Password = "";
             return new
             {
                 token = token

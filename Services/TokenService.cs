@@ -17,7 +17,7 @@ namespace EstudosAPI.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]       //ClaimsIdentity => trabalhar com identidade
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString()) 
                 }),
                 Expires = DateTime.UtcNow.AddHours(1), //tempo de experição do token
