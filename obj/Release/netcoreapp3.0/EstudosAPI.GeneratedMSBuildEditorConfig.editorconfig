@@ -1,7 +1,3 @@
 is_global = true
 build_property.RootNamespace = EstudosAPI
-<<<<<<< HEAD
-build_property.ProjectDir = d:\dev\EstudosAPI\
-=======
 build_property.ProjectDir = C:\Users\teteu\Source\Repos\EstudosAPI\
->>>>>>> f4bfcbf252da68f26159b9ab1f54af3d419e4896
